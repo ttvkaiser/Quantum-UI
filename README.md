@@ -56,5 +56,3 @@ C++, C+, Lua, Python, JavaScript, and HTML
 ---
 
 Made with ❤️ by ttvkaiser
-
-If you want, I can help you add more sections like Installation, Examples, or API Reference too!
