@@ -21,9 +21,10 @@ Quantum UI is a lightweight, modern Roblox UI library designed for easy use and 
 ### Load Quantum UI via Loadstring  
 ```lua
 local quantumui = loadstring(game:HttpGet("https://raw.githubusercontent.com/ttvkaiser/Quantum-UI/refs/heads/main/Library.lua"))()
+```
 
-Create a Main Window
-
+### Create a Main Window
+```lua
 local window = quantumui:CreateWindow{
     Title = "Quantum UI Example",
     SubTitle = "by ttvkaiser",
