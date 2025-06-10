@@ -1,0 +1,111 @@
+local QuantumUI = {}
+
+local Players = game:GetService("Players") local LocalPlayer = Players.LocalPlayer local Mouse = LocalPlayer:GetMouse()
+
+function QuantumUI:CreateWindow(config) local screenGui = Instance.new("ScreenGui") screenGui.Name = "QuantumUI" screenGui.ResetOnSpawn = false screenGui.Parent = game:GetService("CoreGui")
+
+local window = Instance.new("Frame")
+window.Size = config.Size or UDim2.fromOffset(600, 600)
+window.Position = UDim2.new(0.5, -window.Size.X.Offset / 2, 0.5, -window.Size.Y.Offset / 2)
+window.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+window.BorderSizePixel = 0
+window.AnchorPoint = Vector2.new(0.5, 0.5)
+window.Parent = screenGui
+
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, 40)
+titleBar.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+titleBar.BorderSizePixel = 0
+titleBar.Parent = window
+
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, -100, 1, 0)
+titleLabel.Position = UDim2.new(0, 10, 0, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = config.Title or "Quantum UI"
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextSize = 18
+titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+titleLabel.Parent = titleBar
+
+local subLabel = Instance.new("TextLabel")
+subLabel.Size = UDim2.new(1, -100, 1, 0)
+subLabel.Position = UDim2.new(0, 10, 20, 0)
+subLabel.BackgroundTransparency = 1
+subLabel.Text = config.SubTitle or "SubTitle"
+subLabel.TextColor3 = Color3.fromRGB(160, 160, 160)
+subLabel.Font = Enum.Font.Gotham
+subLabel.TextSize = 12
+subLabel.TextXAlignment = Enum.TextXAlignment.Left
+subLabel.Parent = titleBar
+
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Size = UDim2.new(0, 30, 0, 30)
+minimizeButton.Position = UDim2.new(1, -70, 0, 5)
+minimizeButton.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
+minimizeButton.Text = "_"
+minimizeButton.Font = Enum.Font.GothamBold
+minimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+minimizeButton.TextSize = 20
+minimizeButton.BorderSizePixel = 0
+minimizeButton.Parent = titleBar
+
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(1, -35, 0, 5)
+closeButton.BackgroundColor3 = Color3.fromRGB(65, 45, 45)
+closeButton.Text = "X"
+closeButton.Font = Enum.Font.GothamBold
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.TextSize = 20
+closeButton.BorderSizePixel = 0
+closeButton.Parent = titleBar
+
+closeButton.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+minimizeButton.MouseButton1Click:Connect(function()
+    window.Visible = not window.Visible
+end)
+
+-- Make it draggable
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+titleBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = window.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+titleBar.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        local delta = input.Position - dragStart
+        window.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+return window
+
+end
+
+return QuantumUI
+
+
