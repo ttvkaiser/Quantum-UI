@@ -6,7 +6,7 @@
 
 ### Loadstring:
 ```lua
-local quantumui = loadstring(game:HttpGet("https://example-domain.com/quantum-ui.lua"))()
+local quantumui = loadstring(game:HttpGet("https://raw.githubusercontent.com/ttvkaiser/Quantum-UI/refs/heads/main/Library.lua"))()
 ```
 
 ### Add Main window:
