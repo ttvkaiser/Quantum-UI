@@ -7,9 +7,9 @@ function QuantumUI:CreateWindow(config) local screenGui = Instance.new("ScreenGu
 local window = Instance.new("Frame")
 window.Size = config.Size or UDim2.fromOffset(600, 600)
 window.Position = UDim2.new(0.5, -window.Size.X.Offset / 2, 0.5, -window.Size.Y.Offset / 2)
+window.AnchorPoint = Vector2.new(0.5, 0.5)
 window.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
 window.BorderSizePixel = 0
-window.AnchorPoint = Vector2.new(0.5, 0.5)
 window.Parent = screenGui
 
 local titleBar = Instance.new("Frame")
