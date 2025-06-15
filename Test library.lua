@@ -152,6 +152,124 @@ function QuantumUI:CreateWindow(config)
         return tabPage
     end
 
+    function QuantumUI:AddButton(tabPage, text, callback)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, -10, 0, 36)
+    button.Position = UDim2.new(0, 5, 0, 0)
+    button.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
+    button.BorderSizePixel = 0
+    button.Text = text
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Font = Enum.Font.Gotham
+    button.TextSize = 14
+    button.Parent = tabPage
+
+    Instance.new("UICorner", button)
+
+    button.MouseButton1Click:Connect(function()
+        if callback then callback() end
+    end)
+end
+
+function QuantumUI:AddToggle(tabPage, text, default, callback)
+    local toggle = Instance.new("TextButton")
+    toggle.Size = UDim2.new(1, -10, 0, 36)
+    toggle.Position = UDim2.new(0, 5, 0, 0)
+    toggle.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
+    toggle.BorderSizePixel = 0
+    toggle.Text = "[OFF] " .. text
+    toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    toggle.Font = Enum.Font.Gotham
+    toggle.TextSize = 14
+    toggle.Parent = tabPage
+
+    Instance.new("UICorner", toggle)
+
+    local state = default or false
+    toggle.MouseButton1Click:Connect(function()
+        state = not state
+        toggle.Text = (state and "[ON] " or "[OFF] ") .. text
+        if callback then callback(state) end
+    end)
+end
+
+function QuantumUI:AddParagraph(tabPage, text)
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, -10, 0, 48)
+    label.Position = UDim2.new(0, 5, 0, 0)
+    label.BackgroundTransparency = 1
+    label.Text = text
+    label.TextWrapped = true
+    label.TextColor3 = Color3.fromRGB(200, 200, 200)
+    label.Font = Enum.Font.Gotham
+    label.TextSize = 13
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.TextYAlignment = Enum.TextYAlignment.Top
+    label.Parent = tabPage
+end
+
+function QuantumUI:AddSection(tabPage, text)
+    local section = Instance.new("TextLabel")
+    section.Size = UDim2.new(1, -10, 0, 30)
+    section.Position = UDim2.new(0, 5, 0, 0)
+    section.BackgroundTransparency = 1
+    section.Text = "— " .. text
+    section.TextColor3 = Color3.fromRGB(150, 150, 220)
+    section.Font = Enum.Font.GothamBold
+    section.TextSize = 16
+    section.TextXAlignment = Enum.TextXAlignment.Left
+    section.Parent = tabPage
+end
+
+function QuantumUI:AddDropdown(tabPage, title, values, callback)
+    local dropdown = Instance.new("TextButton")
+    dropdown.Size = UDim2.new(1, -10, 0, 36)
+    dropdown.Position = UDim2.new(0, 5, 0, 0)
+    dropdown.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
+    dropdown.Text = "[Select] " .. title
+    dropdown.TextColor3 = Color3.fromRGB(255, 255, 255)
+    dropdown.Font = Enum.Font.Gotham
+    dropdown.TextSize = 14
+    dropdown.Parent = tabPage
+    Instance.new("UICorner", dropdown)
+
+    local selected = nil
+    local open = false
+
+    dropdown.MouseButton1Click:Connect(function()
+        if open then return end
+        open = true
+
+        for _, v in pairs(values) do
+            local opt = Instance.new("TextButton")
+            opt.Size = UDim2.new(1, -10, 0, 30)
+            opt.Position = UDim2.new(0, 5, 0, 0)
+            opt.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+            opt.Text = v
+            opt.TextColor3 = Color3.fromRGB(255, 255, 255)
+            opt.Font = Enum.Font.Gotham
+            opt.TextSize = 13
+            opt.Parent = tabPage
+            Instance.new("UICorner", opt)
+
+            opt.MouseButton1Click:Connect(function()
+                selected = v
+                dropdown.Text = "[Selected] " .. v
+                open = false
+                if callback then callback(v) end
+
+                for _, c in pairs(tabPage:GetChildren()) do
+                    if c ~= dropdown and c ~= opt and c:IsA("TextButton") and c.Text ~= dropdown.Text then
+                        c.Visible = true
+                    elseif c ~= dropdown then
+                        c:Destroy()
+                    end
+                end
+            end)
+        end
+    end)
+    end
+
     -- Close button destroys UI
     closeButton.MouseButton1Click:Connect(function()
         screenGui:Destroy()
