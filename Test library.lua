@@ -10,11 +10,6 @@ function QuantumUI:CreateWindow(config)
     screenGui.ResetOnSpawn = false
     screenGui.Parent = game:GetService("CoreGui")
 
-    -- Blur Effect
-    local blur = Instance.new("BlurEffect")
-    blur.Size = 12
-    blur.Parent = game:GetService("Lighting")
-
     local window = Instance.new("Frame")
     window.Size = config.Size or UDim2.fromOffset(600, 600)
     window.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -91,7 +86,6 @@ function QuantumUI:CreateWindow(config)
 
     -- Close button destroys UI and blur
     closeButton.MouseButton1Click:Connect(function()
-        blur:Destroy()
         screenGui:Destroy()
     end)
 
