@@ -270,7 +270,7 @@ function QuantumUI:AddDropdown(tabPage, title, values, callback)
     end)
     end
 
-    function QuantumUI:AddSlider(tabPage, text, min, max, default, callback)
+function QuantumUI:AddSlider(tabPage, text, min, max, default, callback)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, -10, 0, 40)
     container.Position = UDim2.new(0, 5, 0, 0)
@@ -315,22 +315,39 @@ function QuantumUI:AddDropdown(tabPage, title, values, callback)
         if callback then callback(value) end
     end
 
+    local function inputStart(input)
+        dragging = true
+        update(input)
+    end
+
+    local function inputEnd(input)
+        dragging = false
+    end
+
+    local function inputMove(input)
+        if dragging then
+            update(input)
+        end
+    end
+
+    -- Mouse
     sliderFrame.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-            update(input)
+            inputStart(input)
+        elseif input.UserInputType == Enum.UserInputType.Touch then
+            inputStart(input)
         end
     end)
 
     UIS.InputChanged:Connect(function(input)
-        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-            update(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            inputMove(input)
         end
     end)
 
     UIS.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = false
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            inputEnd(input)
         end
     end)
     end
