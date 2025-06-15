@@ -221,54 +221,94 @@ function QuantumUI:AddSection(tabPage, text)
     section.Parent = tabPage
 end
 
-function QuantumUI:AddDropdown(tabPage, title, values, callback)
-    local dropdown = Instance.new("TextButton")
-    dropdown.Size = UDim2.new(1, -10, 0, 36)
-    dropdown.Position = UDim2.new(0, 5, 0, 0)
-    dropdown.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
-    dropdown.Text = "[Select] " .. title
-    dropdown.TextColor3 = Color3.fromRGB(255, 255, 255)
-    dropdown.Font = Enum.Font.Gotham
-    dropdown.TextSize = 14
-    dropdown.Parent = tabPage
+function QuantumUI:AddDropdown(tabPage, title, values, default, callback)
+    local UIS = game:GetService("UserInputService")
+
+    local container = Instance.new("Frame")
+    container.Size = UDim2.new(1, -10, 0, 20)
+    container.BackgroundTransparency = 1
+    container.Parent = tabPage
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 0, 20)
+    label.Text = title .. ": " .. tostring(default)
+    label.BackgroundTransparency = 1
+    label.TextColor3 = Color3.fromRGB(200, 200, 200)
+    label.Font = Enum.Font.Gotham
+    label.TextSize = 13
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Parent = container
+
+    local dropdown = Instance.new("Frame")
+    dropdown.Size = UDim2.new(1, 0, 0, 24)
+    dropdown.Position = UDim2.new(0, 0, 0, 20)
+    dropdown.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+    dropdown.BorderSizePixel = 0
+    dropdown.ClipsDescendants = true
+    dropdown.Parent = container
     Instance.new("UICorner", dropdown)
 
-    local selected = nil
-    local open = false
+    local selectedBtn = Instance.new("TextButton")
+    selectedBtn.Size = UDim2.new(1, 0, 0, 24)
+    selectedBtn.BackgroundTransparency = 1
+    selectedBtn.Text = tostring(default)
+    selectedBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    selectedBtn.Font = Enum.Font.Gotham
+    selectedBtn.TextSize = 13
+    selectedBtn.TextXAlignment = Enum.TextXAlignment.Left
+    selectedBtn.TextXAlignment = Enum.TextXAlignment.Left
+    selectedBtn.Parent = dropdown
 
-    dropdown.MouseButton1Click:Connect(function()
-        if open then return end
-        open = true
+    local listContainer = Instance.new("Frame")
+    listContainer.Size = UDim2.new(1, 0, 0, 0)
+    listContainer.Position = UDim2.new(0, 0, 0, 24)
+    listContainer.BackgroundTransparency = 1
+    listContainer.Visible = false
+    listContainer.ClipsDescendants = true
+    listContainer.Parent = dropdown
 
-        for _, v in pairs(values) do
-            local opt = Instance.new("TextButton")
-            opt.Size = UDim2.new(1, -10, 0, 30)
-            opt.Position = UDim2.new(0, 5, 0, 0)
-            opt.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
-            opt.Text = v
-            opt.TextColor3 = Color3.fromRGB(255, 255, 255)
-            opt.Font = Enum.Font.Gotham
-            opt.TextSize = 13
-            opt.Parent = tabPage
-            Instance.new("UICorner", opt)
+    local listLayout = Instance.new("UIListLayout")
+    listLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    listLayout.Parent = listContainer
 
-            opt.MouseButton1Click:Connect(function()
-                selected = v
-                dropdown.Text = "[Selected] " .. v
-                open = false
-                if callback then callback(v) end
+    local isOpen = false
 
-                for _, c in pairs(tabPage:GetChildren()) do
-                    if c ~= dropdown and c ~= opt and c:IsA("TextButton") and c.Text ~= dropdown.Text then
-                        c.Visible = true
-                    elseif c ~= dropdown then
-                        c:Destroy()
-                    end
-                end
-            end)
-        end
-    end)
+    local function toggleDropdown()
+        isOpen = not isOpen
+        listContainer.Visible = true
+        local itemCount = #values
+        local height = isOpen and (itemCount * 24) or 0
+        listContainer:TweenSize(UDim2.new(1, 0, 0, height), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.2, true)
     end
+
+    selectedBtn.MouseButton1Click:Connect(toggleDropdown)
+    selectedBtn.TouchTap:Connect(toggleDropdown)
+
+    for _, option in ipairs(values) do
+        local optBtn = Instance.new("TextButton")
+        optBtn.Size = UDim2.new(1, 0, 0, 24)
+        optBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
+        optBtn.Text = tostring(option)
+        optBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        optBtn.Font = Enum.Font.Gotham
+        optBtn.TextSize = 13
+        optBtn.BorderSizePixel = 0
+        optBtn.Parent = listContainer
+        Instance.new("UICorner", optBtn)
+
+        optBtn.MouseButton1Click:Connect(function()
+            selectedBtn.Text = option
+            if callback then callback(option) end
+            toggleDropdown() -- Close after selecting
+        end)
+
+        optBtn.TouchTap:Connect(function()
+            selectedBtn.Text = option
+            if callback then callback(option) end
+            toggleDropdown()
+        end)
+    end
+end
 
 function QuantumUI:AddSlider(tabPage, text, min, max, default, callback)
     local container = Instance.new("Frame")
