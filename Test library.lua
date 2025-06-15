@@ -14,28 +14,26 @@ function QuantumUI:CreateWindow(config)
     window.Size = config.Size or UDim2.fromOffset(600, 600)
     window.AnchorPoint = Vector2.new(0.5, 0.5)
     window.Position = UDim2.new(0.5, 0, 0.5, 0)
-    window.BackgroundColor3 = Color3.fromRGB(15, 15, 15) -- dark blackish background
+    window.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     window.BorderSizePixel = 0
     window.ZIndex = 10
     window.BackgroundTransparency = 0
     window.Parent = screenGui
 
-    -- Glass effect
     local uICorner = Instance.new("UICorner")
     uICorner.CornerRadius = UDim.new(0, 18)
     uICorner.Parent = window
 
     local uIStroke = Instance.new("UIStroke", window)
-    uIStroke.Color = Color3.fromRGB(200, 200, 200) -- light gray stroke
+    uIStroke.Color = Color3.fromRGB(80, 80, 80)
     uIStroke.Thickness = 1
-    uIStroke.Transparency = 0.5
+    uIStroke.Transparency = 0.4
 
     local titleBar = Instance.new("Frame")
     titleBar.Size = UDim2.new(1, 0, 0, 40)
-    titleBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30) -- dark gray title bar
+    titleBar.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
     titleBar.BorderSizePixel = 0
     titleBar.Parent = window
-
     Instance.new("UICorner", titleBar).CornerRadius = UDim.new(0, 12)
 
     local titleLabel = Instance.new("TextLabel")
@@ -43,7 +41,7 @@ function QuantumUI:CreateWindow(config)
     titleLabel.Position = UDim2.new(0, 10, 0, 0)
     titleLabel.BackgroundTransparency = 1
     titleLabel.Text = config.Title or "Quantum UI"
-    titleLabel.TextColor3 = Color3.fromRGB(240, 240, 240) -- bright white text
+    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
     titleLabel.Font = Enum.Font.GothamBold
     titleLabel.TextSize = 18
     titleLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -54,7 +52,7 @@ function QuantumUI:CreateWindow(config)
     subLabel.Position = UDim2.new(0, 10, 20, 0)
     subLabel.BackgroundTransparency = 1
     subLabel.Text = config.SubTitle or "SubTitle"
-    subLabel.TextColor3 = Color3.fromRGB(180, 180, 180) -- lighter gray for subtitle
+    subLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
     subLabel.Font = Enum.Font.Gotham
     subLabel.TextSize = 12
     subLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -63,10 +61,10 @@ function QuantumUI:CreateWindow(config)
     local minimizeButton = Instance.new("TextButton")
     minimizeButton.Size = UDim2.new(0, 30, 0, 30)
     minimizeButton.Position = UDim2.new(1, -70, 0, 5)
-    minimizeButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    minimizeButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     minimizeButton.Text = "_"
     minimizeButton.Font = Enum.Font.GothamBold
-    minimizeButton.TextColor3 = Color3.fromRGB(240, 240, 240)
+    minimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     minimizeButton.TextSize = 20
     minimizeButton.BorderSizePixel = 0
     minimizeButton.Parent = titleBar
@@ -75,16 +73,15 @@ function QuantumUI:CreateWindow(config)
     local closeButton = Instance.new("TextButton")
     closeButton.Size = UDim2.new(0, 30, 0, 30)
     closeButton.Position = UDim2.new(1, -35, 0, 5)
-    closeButton.BackgroundColor3 = Color3.fromRGB(70, 0, 0)
+    closeButton.BackgroundColor3 = Color3.fromRGB(60, 20, 20)
     closeButton.Text = "X"
     closeButton.Font = Enum.Font.GothamBold
-    closeButton.TextColor3 = Color3.fromRGB(240, 240, 240)
+    closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     closeButton.TextSize = 20
     closeButton.BorderSizePixel = 0
     closeButton.Parent = titleBar
     Instance.new("UICorner", closeButton).CornerRadius = UDim.new(1, 0)
 
-    -- Tab layout setup
     local contentFrame = Instance.new("Frame")
     contentFrame.Size = UDim2.new(1, -150, 1, -40)
     contentFrame.Position = UDim2.new(0, 150, 0, 40)
@@ -95,7 +92,7 @@ function QuantumUI:CreateWindow(config)
     local tabList = Instance.new("Frame")
     tabList.Size = UDim2.new(0, 150, 1, -40)
     tabList.Position = UDim2.new(0, 0, 0, 40)
-    tabList.BackgroundColor3 = Color3.fromRGB(40, 40, 40) -- dark gray tab background
+    tabList.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
     tabList.BorderSizePixel = 0
     tabList.Parent = window
 
@@ -108,10 +105,10 @@ function QuantumUI:CreateWindow(config)
         local button = Instance.new("TextButton")
         button.Size = UDim2.new(1, -10, 0, 40)
         button.Position = UDim2.new(0, 5, 0, 0)
-        button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
         button.BorderSizePixel = 0
         button.Text = title
-        button.TextColor3 = Color3.fromRGB(240, 240, 240)
+        button.TextColor3 = Color3.fromRGB(255, 255, 255)
         button.Font = Enum.Font.GothamBold
         button.TextSize = 16
         button.AutoButtonColor = true
@@ -143,7 +140,6 @@ function QuantumUI:CreateWindow(config)
             tabPage.Visible = true
         end)
 
-        -- Auto select first tab
         if #contentFrame:GetChildren() == 1 then
             tabPage.Visible = true
         end
@@ -155,14 +151,13 @@ function QuantumUI:CreateWindow(config)
         local button = Instance.new("TextButton")
         button.Size = UDim2.new(1, -10, 0, 36)
         button.Position = UDim2.new(0, 5, 0, 0)
-        button.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+        button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
         button.BorderSizePixel = 0
         button.Text = text
-        button.TextColor3 = Color3.fromRGB(240, 240, 240)
+        button.TextColor3 = Color3.fromRGB(255, 255, 255)
         button.Font = Enum.Font.Gotham
         button.TextSize = 14
         button.Parent = tabPage
-
         Instance.new("UICorner", button)
 
         button.MouseButton1Click:Connect(function()
@@ -174,14 +169,13 @@ function QuantumUI:CreateWindow(config)
         local toggle = Instance.new("TextButton")
         toggle.Size = UDim2.new(1, -10, 0, 36)
         toggle.Position = UDim2.new(0, 5, 0, 0)
-        toggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        toggle.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
         toggle.BorderSizePixel = 0
         toggle.Text = "[OFF] " .. text
-        toggle.TextColor3 = Color3.fromRGB(240, 240, 240)
+        toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
         toggle.Font = Enum.Font.Gotham
         toggle.TextSize = 14
         toggle.Parent = tabPage
-
         Instance.new("UICorner", toggle)
 
         local state = default or false
@@ -199,7 +193,7 @@ function QuantumUI:CreateWindow(config)
         label.BackgroundTransparency = 1
         label.Text = text
         label.TextWrapped = true
-        label.TextColor3 = Color3.fromRGB(230, 230, 230)
+        label.TextColor3 = Color3.fromRGB(220, 220, 220)
         label.Font = Enum.Font.Gotham
         label.TextSize = 13
         label.TextXAlignment = Enum.TextXAlignment.Left
@@ -213,7 +207,7 @@ function QuantumUI:CreateWindow(config)
         section.Position = UDim2.new(0, 5, 0, 0)
         section.BackgroundTransparency = 1
         section.Text = "— " .. text
-        section.TextColor3 = Color3.fromRGB(200, 200, 200)
+        section.TextColor3 = Color3.fromRGB(255, 255, 255)
         section.Font = Enum.Font.GothamBold
         section.TextSize = 25
         section.TextXAlignment = Enum.TextXAlignment.Left
@@ -232,7 +226,7 @@ function QuantumUI:CreateWindow(config)
         label.Position = UDim2.new(0, 0, 0, 0)
         label.BackgroundTransparency = 1
         label.Text = text .. ": " .. tostring(default)
-        label.TextColor3 = Color3.fromRGB(230, 230, 230)
+        label.TextColor3 = Color3.fromRGB(255, 255, 255)
         label.Font = Enum.Font.Gotham
         label.TextSize = 13
         label.TextXAlignment = Enum.TextXAlignment.Left
@@ -241,7 +235,7 @@ function QuantumUI:CreateWindow(config)
         local sliderFrame = Instance.new("Frame")
         sliderFrame.Size = UDim2.new(1, 0, 0, 14)
         sliderFrame.Position = UDim2.new(0, 0, 0, 24)
-        sliderFrame.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        sliderFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         sliderFrame.BorderSizePixel = 0
         sliderFrame.Parent = container
         Instance.new("UICorner", sliderFrame)
