@@ -19,20 +19,22 @@ function QuantumUI:CreateWindow(config)
     local window = Instance.new("Frame")
     window.Size = config.Size or UDim2.fromOffset(600, 600)
     window.AnchorPoint = Vector2.new(0.5, 0.5)
-	window.Position = UDim2.new(0.5, 0, 0.5, 0)
+    window.Position = UDim2.new(0.5, 0, 0.5, 0)
     window.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
     window.BorderSizePixel = 0
+    window.ZIndex = 10
     window.BackgroundTransparency = 0.15
     window.Parent = screenGui
 
     -- Glass effect
-    local uICorner = Instance.new("UICorner", window)
-    uICorner.CornerRadius = UDim.new(0, 12)
+    local uICorner = Instance.new("UICorner")
+    uICorner.CornerRadius = UDim.new(0, 18)
+    uICorner.Parent = window
 
     local uIStroke = Instance.new("UIStroke", window)
-    uIStroke.Color = Color3.fromRGB(90, 90, 255)
-    uIStroke.Thickness = 1.5
-    uIStroke.Transparency = 0.25
+    uIStroke.Color = Color3.fromRGB(120, 120, 180)
+    uIStroke.Thickness = 1
+    uIStroke.Transparency = 0.4
 
     local titleBar = Instance.new("Frame")
     titleBar.Size = UDim2.new(1, 0, 0, 40)
