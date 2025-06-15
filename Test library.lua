@@ -14,10 +14,10 @@ function QuantumUI:CreateWindow(config)
     window.Size = config.Size or UDim2.fromOffset(600, 600)
     window.AnchorPoint = Vector2.new(0.5, 0.5)
     window.Position = UDim2.new(0.5, 0, 0.5, 0)
-    window.BackgroundColor3 = Color3.fromRGB(40, 10, 10) -- Dark red base
+    window.BackgroundColor3 = Color3.fromRGB(15, 15, 15) -- dark blackish background
     window.BorderSizePixel = 0
     window.ZIndex = 10
-    window.BackgroundTransparency = 0.15
+    window.BackgroundTransparency = 0
     window.Parent = screenGui
 
     -- Glass effect
@@ -26,13 +26,13 @@ function QuantumUI:CreateWindow(config)
     uICorner.Parent = window
 
     local uIStroke = Instance.new("UIStroke", window)
-    uIStroke.Color = Color3.fromRGB(180, 80, 80) -- red stroke
+    uIStroke.Color = Color3.fromRGB(200, 200, 200) -- light gray stroke
     uIStroke.Thickness = 1
-    uIStroke.Transparency = 0.4
+    uIStroke.Transparency = 0.5
 
     local titleBar = Instance.new("Frame")
     titleBar.Size = UDim2.new(1, 0, 0, 40)
-    titleBar.BackgroundColor3 = Color3.fromRGB(60, 15, 15) -- darker red
+    titleBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30) -- dark gray title bar
     titleBar.BorderSizePixel = 0
     titleBar.Parent = window
 
@@ -43,7 +43,7 @@ function QuantumUI:CreateWindow(config)
     titleLabel.Position = UDim2.new(0, 10, 0, 0)
     titleLabel.BackgroundTransparency = 1
     titleLabel.Text = config.Title or "Quantum UI"
-    titleLabel.TextColor3 = Color3.fromRGB(255, 180, 180) -- light red text
+    titleLabel.TextColor3 = Color3.fromRGB(240, 240, 240) -- bright white text
     titleLabel.Font = Enum.Font.GothamBold
     titleLabel.TextSize = 18
     titleLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -54,7 +54,7 @@ function QuantumUI:CreateWindow(config)
     subLabel.Position = UDim2.new(0, 10, 20, 0)
     subLabel.BackgroundTransparency = 1
     subLabel.Text = config.SubTitle or "SubTitle"
-    subLabel.TextColor3 = Color3.fromRGB(160, 90, 90) -- muted red
+    subLabel.TextColor3 = Color3.fromRGB(180, 180, 180) -- lighter gray for subtitle
     subLabel.Font = Enum.Font.Gotham
     subLabel.TextSize = 12
     subLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -63,10 +63,10 @@ function QuantumUI:CreateWindow(config)
     local minimizeButton = Instance.new("TextButton")
     minimizeButton.Size = UDim2.new(0, 30, 0, 30)
     minimizeButton.Position = UDim2.new(1, -70, 0, 5)
-    minimizeButton.BackgroundColor3 = Color3.fromRGB(75, 15, 15)
+    minimizeButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     minimizeButton.Text = "_"
     minimizeButton.Font = Enum.Font.GothamBold
-    minimizeButton.TextColor3 = Color3.fromRGB(255, 180, 180)
+    minimizeButton.TextColor3 = Color3.fromRGB(240, 240, 240)
     minimizeButton.TextSize = 20
     minimizeButton.BorderSizePixel = 0
     minimizeButton.Parent = titleBar
@@ -75,10 +75,10 @@ function QuantumUI:CreateWindow(config)
     local closeButton = Instance.new("TextButton")
     closeButton.Size = UDim2.new(0, 30, 0, 30)
     closeButton.Position = UDim2.new(1, -35, 0, 5)
-    closeButton.BackgroundColor3 = Color3.fromRGB(120, 20, 20)
+    closeButton.BackgroundColor3 = Color3.fromRGB(70, 0, 0)
     closeButton.Text = "X"
     closeButton.Font = Enum.Font.GothamBold
-    closeButton.TextColor3 = Color3.fromRGB(255, 180, 180)
+    closeButton.TextColor3 = Color3.fromRGB(240, 240, 240)
     closeButton.TextSize = 20
     closeButton.BorderSizePixel = 0
     closeButton.Parent = titleBar
@@ -95,7 +95,7 @@ function QuantumUI:CreateWindow(config)
     local tabList = Instance.new("Frame")
     tabList.Size = UDim2.new(0, 150, 1, -40)
     tabList.Position = UDim2.new(0, 0, 0, 40)
-    tabList.BackgroundColor3 = Color3.fromRGB(70, 15, 15) -- tab background red
+    tabList.BackgroundColor3 = Color3.fromRGB(40, 40, 40) -- dark gray tab background
     tabList.BorderSizePixel = 0
     tabList.Parent = window
 
@@ -108,10 +108,10 @@ function QuantumUI:CreateWindow(config)
         local button = Instance.new("TextButton")
         button.Size = UDim2.new(1, -10, 0, 40)
         button.Position = UDim2.new(0, 5, 0, 0)
-        button.BackgroundColor3 = Color3.fromRGB(90, 20, 20)
+        button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
         button.BorderSizePixel = 0
         button.Text = title
-        button.TextColor3 = Color3.fromRGB(255, 180, 180)
+        button.TextColor3 = Color3.fromRGB(240, 240, 240)
         button.Font = Enum.Font.GothamBold
         button.TextSize = 16
         button.AutoButtonColor = true
@@ -155,10 +155,10 @@ function QuantumUI:CreateWindow(config)
         local button = Instance.new("TextButton")
         button.Size = UDim2.new(1, -10, 0, 36)
         button.Position = UDim2.new(0, 5, 0, 0)
-        button.BackgroundColor3 = Color3.fromRGB(100, 30, 30)
+        button.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
         button.BorderSizePixel = 0
         button.Text = text
-        button.TextColor3 = Color3.fromRGB(255, 180, 180)
+        button.TextColor3 = Color3.fromRGB(240, 240, 240)
         button.Font = Enum.Font.Gotham
         button.TextSize = 14
         button.Parent = tabPage
@@ -174,10 +174,10 @@ function QuantumUI:CreateWindow(config)
         local toggle = Instance.new("TextButton")
         toggle.Size = UDim2.new(1, -10, 0, 36)
         toggle.Position = UDim2.new(0, 5, 0, 0)
-        toggle.BackgroundColor3 = Color3.fromRGB(90, 20, 20)
+        toggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
         toggle.BorderSizePixel = 0
         toggle.Text = "[OFF] " .. text
-        toggle.TextColor3 = Color3.fromRGB(255, 180, 180)
+        toggle.TextColor3 = Color3.fromRGB(240, 240, 240)
         toggle.Font = Enum.Font.Gotham
         toggle.TextSize = 14
         toggle.Parent = tabPage
@@ -199,7 +199,7 @@ function QuantumUI:CreateWindow(config)
         label.BackgroundTransparency = 1
         label.Text = text
         label.TextWrapped = true
-        label.TextColor3 = Color3.fromRGB(255, 150, 150)
+        label.TextColor3 = Color3.fromRGB(230, 230, 230)
         label.Font = Enum.Font.Gotham
         label.TextSize = 13
         label.TextXAlignment = Enum.TextXAlignment.Left
@@ -213,7 +213,7 @@ function QuantumUI:CreateWindow(config)
         section.Position = UDim2.new(0, 5, 0, 0)
         section.BackgroundTransparency = 1
         section.Text = "— " .. text
-        section.TextColor3 = Color3.fromRGB(200, 100, 100)
+        section.TextColor3 = Color3.fromRGB(200, 200, 200)
         section.Font = Enum.Font.GothamBold
         section.TextSize = 25
         section.TextXAlignment = Enum.TextXAlignment.Left
@@ -232,7 +232,7 @@ function QuantumUI:CreateWindow(config)
         label.Position = UDim2.new(0, 0, 0, 0)
         label.BackgroundTransparency = 1
         label.Text = text .. ": " .. tostring(default)
-        label.TextColor3 = Color3.fromRGB(255, 150, 150)
+        label.TextColor3 = Color3.fromRGB(230, 230, 230)
         label.Font = Enum.Font.Gotham
         label.TextSize = 13
         label.TextXAlignment = Enum.TextXAlignment.Left
@@ -241,14 +241,14 @@ function QuantumUI:CreateWindow(config)
         local sliderFrame = Instance.new("Frame")
         sliderFrame.Size = UDim2.new(1, 0, 0, 14)
         sliderFrame.Position = UDim2.new(0, 0, 0, 24)
-        sliderFrame.BackgroundColor3 = Color3.fromRGB(90, 20, 20)
+        sliderFrame.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
         sliderFrame.BorderSizePixel = 0
         sliderFrame.Parent = container
         Instance.new("UICorner", sliderFrame)
 
         local fill = Instance.new("Frame")
         fill.Size = UDim2.new((default - min) / (max - min), 0, 1, 0)
-        fill.BackgroundColor3 = Color3.fromRGB(180, 70, 70)
+        fill.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
         fill.BorderSizePixel = 0
         fill.Parent = sliderFrame
         Instance.new("UICorner", fill)
@@ -311,7 +311,7 @@ function QuantumUI:CreateWindow(config)
         tinyButton.Size = UDim2.new(0, 30, 0, 30)
         tinyButton.Position = UDim2.new(0, 10, 0.5, -15)
         tinyButton.AnchorPoint = Vector2.new(0, 0)
-        tinyButton.BackgroundColor3 = Color3.fromRGB(75, 15, 15)
+        tinyButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
         tinyButton.BorderSizePixel = 0
         tinyButton.ZIndex = 20
         tinyButton.Image = "rbxassetid://6023426915"
