@@ -270,6 +270,71 @@ function QuantumUI:AddDropdown(tabPage, title, values, callback)
     end)
     end
 
+    function QuantumUI:AddSlider(tabPage, text, min, max, default, callback)
+    local container = Instance.new("Frame")
+    container.Size = UDim2.new(1, -10, 0, 40)
+    container.Position = UDim2.new(0, 5, 0, 0)
+    container.BackgroundTransparency = 1
+    container.Parent = tabPage
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 0, 20)
+    label.Position = UDim2.new(0, 0, 0, 0)
+    label.BackgroundTransparency = 1
+    label.Text = text .. ": " .. tostring(default)
+    label.TextColor3 = Color3.fromRGB(200, 200, 200)
+    label.Font = Enum.Font.Gotham
+    label.TextSize = 13
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Parent = container
+
+    local sliderFrame = Instance.new("Frame")
+    sliderFrame.Size = UDim2.new(1, 0, 0, 14)
+    sliderFrame.Position = UDim2.new(0, 0, 0, 24)
+    sliderFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
+    sliderFrame.BorderSizePixel = 0
+    sliderFrame.Parent = container
+    Instance.new("UICorner", sliderFrame)
+
+    local fill = Instance.new("Frame")
+    fill.Size = UDim2.new((default - min) / (max - min), 0, 1, 0)
+    fill.BackgroundColor3 = Color3.fromRGB(120, 120, 255)
+    fill.BorderSizePixel = 0
+    fill.Parent = sliderFrame
+    Instance.new("UICorner", fill)
+
+    local dragging = false
+    local UIS = game:GetService("UserInputService")
+
+    local function update(input)
+        local rel = input.Position.X - sliderFrame.AbsolutePosition.X
+        local pct = math.clamp(rel / sliderFrame.AbsoluteSize.X, 0, 1)
+        fill.Size = UDim2.new(pct, 0, 1, 0)
+        local value = math.floor(min + (max - min) * pct)
+        label.Text = text .. ": " .. tostring(value)
+        if callback then callback(value) end
+    end
+
+    sliderFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            update(input)
+        end
+    end)
+
+    UIS.InputChanged:Connect(function(input)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            update(input)
+        end
+    end)
+
+    UIS.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
+    end)
+    end
+
     -- Close button destroys UI
     closeButton.MouseButton1Click:Connect(function()
         screenGui:Destroy()
