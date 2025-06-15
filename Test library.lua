@@ -14,7 +14,7 @@ function QuantumUI:CreateWindow(config)
     window.Size = config.Size or UDim2.fromOffset(600, 600)
     window.AnchorPoint = Vector2.new(0.5, 0.5)
     window.Position = UDim2.new(0.5, 0, 0.5, 0)
-    window.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+    window.BackgroundColor3 = Color3.fromRGB(40, 10, 10) -- Dark red base
     window.BorderSizePixel = 0
     window.ZIndex = 10
     window.BackgroundTransparency = 0.15
@@ -26,13 +26,13 @@ function QuantumUI:CreateWindow(config)
     uICorner.Parent = window
 
     local uIStroke = Instance.new("UIStroke", window)
-    uIStroke.Color = Color3.fromRGB(120, 120, 180)
+    uIStroke.Color = Color3.fromRGB(180, 80, 80) -- red stroke
     uIStroke.Thickness = 1
     uIStroke.Transparency = 0.4
 
     local titleBar = Instance.new("Frame")
     titleBar.Size = UDim2.new(1, 0, 0, 40)
-    titleBar.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+    titleBar.BackgroundColor3 = Color3.fromRGB(60, 15, 15) -- darker red
     titleBar.BorderSizePixel = 0
     titleBar.Parent = window
 
@@ -43,7 +43,7 @@ function QuantumUI:CreateWindow(config)
     titleLabel.Position = UDim2.new(0, 10, 0, 0)
     titleLabel.BackgroundTransparency = 1
     titleLabel.Text = config.Title or "Quantum UI"
-    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleLabel.TextColor3 = Color3.fromRGB(255, 180, 180) -- light red text
     titleLabel.Font = Enum.Font.GothamBold
     titleLabel.TextSize = 18
     titleLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -54,7 +54,7 @@ function QuantumUI:CreateWindow(config)
     subLabel.Position = UDim2.new(0, 10, 20, 0)
     subLabel.BackgroundTransparency = 1
     subLabel.Text = config.SubTitle or "SubTitle"
-    subLabel.TextColor3 = Color3.fromRGB(160, 160, 160)
+    subLabel.TextColor3 = Color3.fromRGB(160, 90, 90) -- muted red
     subLabel.Font = Enum.Font.Gotham
     subLabel.TextSize = 12
     subLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -63,10 +63,10 @@ function QuantumUI:CreateWindow(config)
     local minimizeButton = Instance.new("TextButton")
     minimizeButton.Size = UDim2.new(0, 30, 0, 30)
     minimizeButton.Position = UDim2.new(1, -70, 0, 5)
-    minimizeButton.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
+    minimizeButton.BackgroundColor3 = Color3.fromRGB(75, 15, 15)
     minimizeButton.Text = "_"
     minimizeButton.Font = Enum.Font.GothamBold
-    minimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    minimizeButton.TextColor3 = Color3.fromRGB(255, 180, 180)
     minimizeButton.TextSize = 20
     minimizeButton.BorderSizePixel = 0
     minimizeButton.Parent = titleBar
@@ -75,10 +75,10 @@ function QuantumUI:CreateWindow(config)
     local closeButton = Instance.new("TextButton")
     closeButton.Size = UDim2.new(0, 30, 0, 30)
     closeButton.Position = UDim2.new(1, -35, 0, 5)
-    closeButton.BackgroundColor3 = Color3.fromRGB(65, 45, 45)
+    closeButton.BackgroundColor3 = Color3.fromRGB(120, 20, 20)
     closeButton.Text = "X"
     closeButton.Font = Enum.Font.GothamBold
-    closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    closeButton.TextColor3 = Color3.fromRGB(255, 180, 180)
     closeButton.TextSize = 20
     closeButton.BorderSizePixel = 0
     closeButton.Parent = titleBar
@@ -95,7 +95,7 @@ function QuantumUI:CreateWindow(config)
     local tabList = Instance.new("Frame")
     tabList.Size = UDim2.new(0, 150, 1, -40)
     tabList.Position = UDim2.new(0, 0, 0, 40)
-    tabList.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
+    tabList.BackgroundColor3 = Color3.fromRGB(70, 15, 15) -- tab background red
     tabList.BorderSizePixel = 0
     tabList.Parent = window
 
@@ -104,15 +104,14 @@ function QuantumUI:CreateWindow(config)
     tabLayout.Padding = UDim.new(0, 6)
     tabLayout.Parent = tabList
 
-    -- Tab Creation Function
     function QuantumUI:CreateTab(title)
         local button = Instance.new("TextButton")
         button.Size = UDim2.new(1, -10, 0, 40)
         button.Position = UDim2.new(0, 5, 0, 0)
-        button.BackgroundColor3 = Color3.fromRGB(45, 45, 60)
+        button.BackgroundColor3 = Color3.fromRGB(90, 20, 20)
         button.BorderSizePixel = 0
         button.Text = title
-        button.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button.TextColor3 = Color3.fromRGB(255, 180, 180)
         button.Font = Enum.Font.GothamBold
         button.TextSize = 16
         button.AutoButtonColor = true
@@ -153,154 +152,150 @@ function QuantumUI:CreateWindow(config)
     end
 
     function QuantumUI:AddButton(tabPage, text, callback)
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(1, -10, 0, 36)
-    button.Position = UDim2.new(0, 5, 0, 0)
-    button.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
-    button.BorderSizePixel = 0
-    button.Text = text
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.Font = Enum.Font.Gotham
-    button.TextSize = 14
-    button.Parent = tabPage
+        local button = Instance.new("TextButton")
+        button.Size = UDim2.new(1, -10, 0, 36)
+        button.Position = UDim2.new(0, 5, 0, 0)
+        button.BackgroundColor3 = Color3.fromRGB(100, 30, 30)
+        button.BorderSizePixel = 0
+        button.Text = text
+        button.TextColor3 = Color3.fromRGB(255, 180, 180)
+        button.Font = Enum.Font.Gotham
+        button.TextSize = 14
+        button.Parent = tabPage
 
-    Instance.new("UICorner", button)
+        Instance.new("UICorner", button)
 
-    button.MouseButton1Click:Connect(function()
-        if callback then callback() end
-    end)
-end
-
-function QuantumUI:AddToggle(tabPage, text, default, callback)
-    local toggle = Instance.new("TextButton")
-    toggle.Size = UDim2.new(1, -10, 0, 36)
-    toggle.Position = UDim2.new(0, 5, 0, 0)
-    toggle.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
-    toggle.BorderSizePixel = 0
-    toggle.Text = "[OFF] " .. text
-    toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
-    toggle.Font = Enum.Font.Gotham
-    toggle.TextSize = 14
-    toggle.Parent = tabPage
-
-    Instance.new("UICorner", toggle)
-
-    local state = default or false
-    toggle.MouseButton1Click:Connect(function()
-        state = not state
-        toggle.Text = (state and "[ON] " or "[OFF] ") .. text
-        if callback then callback(state) end
-    end)
-end
-
-function QuantumUI:AddParagraph(tabPage, text)
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, -10, 0, 48)
-    label.Position = UDim2.new(0, 5, 0, 0)
-    label.BackgroundTransparency = 1
-    label.Text = text
-    label.TextWrapped = true
-    label.TextColor3 = Color3.fromRGB(200, 200, 200)
-    label.Font = Enum.Font.Gotham
-    label.TextSize = 13
-    label.TextXAlignment = Enum.TextXAlignment.Left
-    label.TextYAlignment = Enum.TextYAlignment.Top
-    label.Parent = tabPage
-end
-
-function QuantumUI:AddSection(tabPage, text)
-    local section = Instance.new("TextLabel")
-    section.Size = UDim2.new(1, -10, 0, 30)
-    section.Position = UDim2.new(0, 5, 0, 0)
-    section.BackgroundTransparency = 1
-    section.Text = "— " .. text
-    section.TextColor3 = Color3.fromRGB(150, 150, 220)
-    section.Font = Enum.Font.GothamBold
-    section.TextSize = 25
-    section.TextXAlignment = Enum.TextXAlignment.Left
-    section.Parent = tabPage
-end
-
-function QuantumUI:AddSlider(tabPage, text, min, max, default, callback)
-    local container = Instance.new("Frame")
-    container.Size = UDim2.new(1, -10, 0, 40)
-    container.Position = UDim2.new(0, 5, 0, 0)
-    container.BackgroundTransparency = 1
-    container.Parent = tabPage
-
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, 0, 0, 20)
-    label.Position = UDim2.new(0, 0, 0, 0)
-    label.BackgroundTransparency = 1
-    label.Text = text .. ": " .. tostring(default)
-    label.TextColor3 = Color3.fromRGB(200, 200, 200)
-    label.Font = Enum.Font.Gotham
-    label.TextSize = 13
-    label.TextXAlignment = Enum.TextXAlignment.Left
-    label.Parent = container
-
-    local sliderFrame = Instance.new("Frame")
-    sliderFrame.Size = UDim2.new(1, 0, 0, 14)
-    sliderFrame.Position = UDim2.new(0, 0, 0, 24)
-    sliderFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
-    sliderFrame.BorderSizePixel = 0
-    sliderFrame.Parent = container
-    Instance.new("UICorner", sliderFrame)
-
-    local fill = Instance.new("Frame")
-    fill.Size = UDim2.new((default - min) / (max - min), 0, 1, 0)
-    fill.BackgroundColor3 = Color3.fromRGB(120, 120, 255)
-    fill.BorderSizePixel = 0
-    fill.Parent = sliderFrame
-    Instance.new("UICorner", fill)
-
-    local dragging = false
-    local UIS = game:GetService("UserInputService")
-
-    local function update(input)
-        local rel = input.Position.X - sliderFrame.AbsolutePosition.X
-        local pct = math.clamp(rel / sliderFrame.AbsoluteSize.X, 0, 1)
-        fill.Size = UDim2.new(pct, 0, 1, 0)
-        local value = math.floor(min + (max - min) * pct)
-        label.Text = text .. ": " .. tostring(value)
-        if callback then callback(value) end
+        button.MouseButton1Click:Connect(function()
+            if callback then callback() end
+        end)
     end
 
-    local function inputStart(input)
-        dragging = true
-        update(input)
+    function QuantumUI:AddToggle(tabPage, text, default, callback)
+        local toggle = Instance.new("TextButton")
+        toggle.Size = UDim2.new(1, -10, 0, 36)
+        toggle.Position = UDim2.new(0, 5, 0, 0)
+        toggle.BackgroundColor3 = Color3.fromRGB(90, 20, 20)
+        toggle.BorderSizePixel = 0
+        toggle.Text = "[OFF] " .. text
+        toggle.TextColor3 = Color3.fromRGB(255, 180, 180)
+        toggle.Font = Enum.Font.Gotham
+        toggle.TextSize = 14
+        toggle.Parent = tabPage
+
+        Instance.new("UICorner", toggle)
+
+        local state = default or false
+        toggle.MouseButton1Click:Connect(function()
+            state = not state
+            toggle.Text = (state and "[ON] " or "[OFF] ") .. text
+            if callback then callback(state) end
+        end)
     end
 
-    local function inputEnd(input)
-        dragging = false
+    function QuantumUI:AddParagraph(tabPage, text)
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(1, -10, 0, 48)
+        label.Position = UDim2.new(0, 5, 0, 0)
+        label.BackgroundTransparency = 1
+        label.Text = text
+        label.TextWrapped = true
+        label.TextColor3 = Color3.fromRGB(255, 150, 150)
+        label.Font = Enum.Font.Gotham
+        label.TextSize = 13
+        label.TextXAlignment = Enum.TextXAlignment.Left
+        label.TextYAlignment = Enum.TextYAlignment.Top
+        label.Parent = tabPage
     end
 
-    local function inputMove(input)
-        if dragging then
+    function QuantumUI:AddSection(tabPage, text)
+        local section = Instance.new("TextLabel")
+        section.Size = UDim2.new(1, -10, 0, 30)
+        section.Position = UDim2.new(0, 5, 0, 0)
+        section.BackgroundTransparency = 1
+        section.Text = "— " .. text
+        section.TextColor3 = Color3.fromRGB(200, 100, 100)
+        section.Font = Enum.Font.GothamBold
+        section.TextSize = 25
+        section.TextXAlignment = Enum.TextXAlignment.Left
+        section.Parent = tabPage
+    end
+
+    function QuantumUI:AddSlider(tabPage, text, min, max, default, callback)
+        local container = Instance.new("Frame")
+        container.Size = UDim2.new(1, -10, 0, 40)
+        container.Position = UDim2.new(0, 5, 0, 0)
+        container.BackgroundTransparency = 1
+        container.Parent = tabPage
+
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(1, 0, 0, 20)
+        label.Position = UDim2.new(0, 0, 0, 0)
+        label.BackgroundTransparency = 1
+        label.Text = text .. ": " .. tostring(default)
+        label.TextColor3 = Color3.fromRGB(255, 150, 150)
+        label.Font = Enum.Font.Gotham
+        label.TextSize = 13
+        label.TextXAlignment = Enum.TextXAlignment.Left
+        label.Parent = container
+
+        local sliderFrame = Instance.new("Frame")
+        sliderFrame.Size = UDim2.new(1, 0, 0, 14)
+        sliderFrame.Position = UDim2.new(0, 0, 0, 24)
+        sliderFrame.BackgroundColor3 = Color3.fromRGB(90, 20, 20)
+        sliderFrame.BorderSizePixel = 0
+        sliderFrame.Parent = container
+        Instance.new("UICorner", sliderFrame)
+
+        local fill = Instance.new("Frame")
+        fill.Size = UDim2.new((default - min) / (max - min), 0, 1, 0)
+        fill.BackgroundColor3 = Color3.fromRGB(180, 70, 70)
+        fill.BorderSizePixel = 0
+        fill.Parent = sliderFrame
+        Instance.new("UICorner", fill)
+
+        local dragging = false
+
+        local function update(input)
+            local rel = input.Position.X - sliderFrame.AbsolutePosition.X
+            local pct = math.clamp(rel / sliderFrame.AbsoluteSize.X, 0, 1)
+            fill.Size = UDim2.new(pct, 0, 1, 0)
+            local value = math.floor(min + (max - min) * pct)
+            label.Text = text .. ": " .. tostring(value)
+            if callback then callback(value) end
+        end
+
+        local function inputStart(input)
+            dragging = true
             update(input)
         end
-    end
 
-    -- Mouse
-    sliderFrame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            inputStart(input)
-        elseif input.UserInputType == Enum.UserInputType.Touch then
-            inputStart(input)
+        local function inputEnd(input)
+            dragging = false
         end
-    end)
 
-    UIS.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            inputMove(input)
+        local function inputMove(input)
+            if dragging then
+                update(input)
+            end
         end
-    end)
 
-    UIS.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            inputEnd(input)
-        end
-    end)
+        sliderFrame.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                inputStart(input)
+            end
+        end)
+
+        UIS.InputChanged:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+                inputMove(input)
+            end
+        end)
+
+        UIS.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                inputEnd(input)
+            end
+        end)
     end
 
     -- Close button destroys UI
@@ -316,7 +311,7 @@ function QuantumUI:AddSlider(tabPage, text, min, max, default, callback)
         tinyButton.Size = UDim2.new(0, 30, 0, 30)
         tinyButton.Position = UDim2.new(0, 10, 0.5, -15)
         tinyButton.AnchorPoint = Vector2.new(0, 0)
-        tinyButton.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
+        tinyButton.BackgroundColor3 = Color3.fromRGB(75, 15, 15)
         tinyButton.BorderSizePixel = 0
         tinyButton.ZIndex = 20
         tinyButton.Image = "rbxassetid://6023426915"
