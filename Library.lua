@@ -83,18 +83,21 @@ function QuantumUI:CreateWindow(config)
     Instance.new("UICorner", closeButton).CornerRadius = UDim.new(1, 0)
 
     local contentFrame = Instance.new("Frame")
-    contentFrame.Size = UDim2.new(1, -150, 1, -40)
-    contentFrame.Position = UDim2.new(0, 150, 0, 40)
-    contentFrame.BackgroundTransparency = 1
     contentFrame.Name = "ContentFrame"
+    contentFrame.Size = UDim2.new(1, -160, 1, -50)
+    contentFrame.Position = UDim2.new(0, 160, 0, 50)
+    contentFrame.BackgroundTransparency = 1
+     contentFrame.ZIndex = 2
+    contentFrame.ClipsDescendants = true
     contentFrame.Parent = window
 
-    local tabList = Instance.new("Frame")
-    tabList.Size = UDim2.new(0, 150, 1, -40)
-    tabList.Position = UDim2.new(0, 0, 0, 40)
-    tabList.BackgroundColor3 = Color3.fromRGB(20, 30, 50)
-    tabList.BorderSizePixel = 0
-    tabList.Parent = window
+	local tabList = Instance.new("Frame")
+	tabList.Size = UDim2.new(0, 160, 1, -50)
+	tabList.Position = UDim2.new(0, 0, 0, 50)
+	tabList.BackgroundColor3 = Color3.fromRGB(20, 30, 50)
+	tabList.BorderSizePixel = 0
+	tabList.ZIndex = 2
+	tabList.Parent = window
 
     local tabLayout = Instance.new("UIListLayout")
     tabLayout.SortOrder = Enum.SortOrder.LayoutOrder
