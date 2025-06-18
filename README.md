@@ -1,58 +1,118 @@
-# Quantum UI  
-*Brand New UI Library by ttvkaiser*  
+# 🌌 Quantum UI
+
+*A brand new, lightweight, and modern Roblox UI library by [ttvkaiser](https://github.com/ttvkaiser)*
 
 ---
 
-## About  
-Quantum UI is a lightweight, modern Roblox UI library designed for easy use and quick integration. Whether you're building simple interfaces or complex windows, Quantum UI makes your UI development smooth and efficient.
+## 📖 About
+
+Quantum UI is a fast and user-friendly Roblox UI library designed for smooth integration and customization. Whether you're making a feature-rich hub or a small tool, Quantum UI gives you powerful tools to create clean and professional interfaces easily.
 
 ---
 
-## Features  
-- Simple and intuitive API  
-- Customizable window size and themes  
-- Lightweight and performance-friendly  
-- Easily extendable  
+## ✨ Features
+
+- ⚙️ Simple and intuitive API
+- 🎨 Custom themes and window sizes
+- 🚀 Lightweight and performance-optimized
+- 🧱 Modular and easily extendable
+- 🖱️ Supports buttons, toggles, sliders, text inputs, and more
 
 ---
 
-## Usage  
+## How it looks!
 
-### Load Quantum UI via Loadstring  
+https://i.imgur.com/M2Fw3lL.png
+
+---
+
+## 🚀 Getting Started
+
+### 🔗 Load Quantum UI
+
 ```lua
-local quantumui = loadstring(game:HttpGet("https://raw.githubusercontent.com/ttvkaiser/Quantum-UI/refs/heads/main/Library.lua"))()
+local QuantumUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/ttvkaiser/Quantum-UI/refs/heads/main/Library.lua"))()
 ```
 
-### Create a Main Window
+---
+
+🪟 Create Your First Window
+
 ```lua
-local window = quantumui:CreateWindow{
+local window = QuantumUI:CreateWindow({
     Title = "Quantum UI Example",
     SubTitle = "by ttvkaiser",
-    Size = UDim2.fromOffset(600, 600),
-    Theme = "QuantumMain"
-}
+    Size = UDim2.fromOffset(750, 500) -- Recommended size!
+})
 ```
 
-
 ---
 
-Getting Help
+📁 Add a Tab
 
-For questions, bug reports, or suggestions, feel free to reach out on Discord or open an issue on the GitHub repo.
-
-
----
-
-License
-
-MIT License
+local tab1 = QuantumUI:CreateTab("Main")
 
 
 ---
 
-Coding Language:
-C++, C+, Lua, Python, JavaScript, and HTML
+📦 Add Elements
+
+```lua
+-- Section
+QuantumUI:AddSection(tab1, "Example Section")
+
+-- Toggle
+QuantumUI:AddToggle(tab1, "Example Toggle", false, function(state)
+    print("Toggle:", state)
+end)
+
+-- Button
+QuantumUI:AddButton(tab1, "Button Example", function()
+    print("Hello from button")
+end)
+
+-- Paragraph
+QuantumUI:AddParagraph(tab1, "This is Quantum UI. You can use this paragraph to give instructions or info. — EXAMPLE PARAGRAPH")
+
+-- Slider
+QuantumUI:AddSlider(tab1, "Example Slider", 10, 100, 16, function(val)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = val
+end)
+```
 
 ---
 
-Made with ❤️ by ttvkaiser
+❓ Help & Support
+
+💬 Reach out on Discord for support, questions, or suggestions.
+
+🐞 Found a bug? Open an issue on the GitHub Repository.
+
+
+
+---
+
+🧾 License
+
+This project is licensed under the MIT License — feel free to use it in your projects!
+
+
+---
+
+🧠 Languages Used
+
+Lua (Roblox)
+
+HTML / CSS / JavaScript (for potential documentation/site)
+
+Python, C++, C+ (for possible extensions or future integration)
+
+
+
+---
+
+❤️ Made with Love by ttvkaiser
+
+If you enjoy using Quantum UI, consider starring the repo and sharing it with others in the community!
+
+Let me know if you'd like a badge layout at the top or contribution guidelines added too.
