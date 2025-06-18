@@ -86,7 +86,8 @@ function QuantumUI:CreateWindow(config)
     contentFrame.Name = "ContentFrame"
     contentFrame.Size = UDim2.new(1, -160, 1, -50)
     contentFrame.Position = UDim2.new(0, 160, 0, 50)
-    contentFrame.BackgroundTransparency = 1
+    contentFrame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    contentFrame.BackgroundTransparency = 0.5
      contentFrame.ZIndex = 2
     contentFrame.ClipsDescendants = true
     contentFrame.Parent = window
