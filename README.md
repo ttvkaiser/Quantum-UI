@@ -20,9 +20,9 @@ Quantum UI is a fast and user-friendly Roblox UI library designed for smooth int
 
 ---
 
-## How it looks!
+## 📸 How It Looks!
 
-https://i.imgur.com/M2Fw3lL.png
+![Quantum UI Preview](https://i.imgur.com/M2Fw3lL.png)
 
 ---
 
@@ -50,8 +50,9 @@ local window = QuantumUI:CreateWindow({
 
 📁 Add a Tab
 
+```lua
 local tab1 = QuantumUI:CreateTab("Main")
-
+```
 
 ---
 
