@@ -104,12 +104,6 @@ This project is licensed under the MIT License — feel free to use it in your p
 
 Lua (Roblox)
 
-HTML / CSS / JavaScript (for potential documentation/site)
-
-Python, C++, C+ (for possible extensions or future integration)
-
-
-
 ---
 
 ❤️ Made with Love by ttvkaiser
