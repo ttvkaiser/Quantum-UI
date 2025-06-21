@@ -10,22 +10,13 @@ function QuantumUI:CreateWindow(config)
     screenGui.ResetOnSpawn = false
     screenGui.Parent = game:GetService("CoreGui")
 
-    local background = Instance.new("Frame")
-    background.Name = "QuantumUI_Background"
-    background.Size = UDim2.new(1, 0, 1, 0)
-    background.Position = UDim2.new(0, 0, 0, 0)
-    background.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
-    background.BackgroundTransparency = 0.2 -- You can tweak this for more/less darkness
-    background.ZIndex = 0
-    background.Parent = screenGui
-
     local window = Instance.new("Frame")
     window.Size = config.Size or UDim2.fromOffset(600, 600)
     window.AnchorPoint = Vector2.new(0.5, 0.5)
     window.Position = UDim2.new(0.5, 0, 0.5, 0)
     window.BackgroundColor3 = Color3.fromRGB(30, 30, 30) -- dark gray
     window.BorderSizePixel = 0
-    window.ZIndex = 10
+    window.ZIndex = 0
     window.BackgroundTransparency = 0.05
     window.Parent = screenGui
 
