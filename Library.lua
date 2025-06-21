@@ -17,7 +17,7 @@ function QuantumUI:CreateWindow(config)
     window.BackgroundColor3 = Color3.fromRGB(30, 30, 30) -- dark gray
     window.BorderSizePixel = 0
     window.ZIndex = 10
-    window.BackgroundTransparency = 0.05
+    window.BackgroundTransparency = 0
     window.Parent = screenGui
 
     local uICorner = Instance.new("UICorner")
