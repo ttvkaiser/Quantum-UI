@@ -164,26 +164,77 @@ function QuantumUI:CreateWindow(config)
         end)
     end
 
-    function QuantumUI:AddToggle(tabPage, text, default, callback)
-        local toggle = Instance.new("TextButton")
-        toggle.Size = UDim2.new(1, -10, 0, 36)
-        toggle.Position = UDim2.new(0, 5, 0, 0)
-        toggle.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
-        toggle.BorderSizePixel = 0
-        toggle.Text = "[OFF] " .. text
-        toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
-        toggle.Font = Enum.Font.Gotham
-        toggle.TextSize = 14
-        toggle.Parent = tabPage
-        Instance.new("UICorner", toggle)
+function QuantumUI:AddToggle(tabPage, text, default, callback)
+	local toggleContainer = Instance.new("Frame")
+	toggleContainer.Size = UDim2.new(1, -10, 0, 36)
+	toggleContainer.Position = UDim2.new(0, 5, 0, 0)
+	toggleContainer.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+	toggleContainer.BorderSizePixel = 0
+	toggleContainer.Parent = tabPage
+	Instance.new("UICorner", toggleContainer)
 
-        local state = default or false
-        toggle.MouseButton1Click:Connect(function()
-            state = not state
-            toggle.Text = (state and "[ON] " or "[OFF] ") .. text
-            if callback then callback(state) end
-        end)
-    end
+	local label = Instance.new("TextLabel")
+	label.Size = UDim2.new(1, -60, 1, 0)
+	label.Position = UDim2.new(0, 10, 0, 0)
+	label.BackgroundTransparency = 1
+	label.Text = text
+	label.TextColor3 = Color3.fromRGB(255, 255, 255)
+	label.Font = Enum.Font.Gotham
+	label.TextSize = 14
+	label.TextXAlignment = Enum.TextXAlignment.Left
+	label.Parent = toggleContainer
+
+	local slider = Instance.new("Frame")
+	slider.Size = UDim2.fromOffset(36, 18)
+	slider.Position = UDim2.new(1, -46, 0.5, 0)
+	slider.AnchorPoint = Vector2.new(0, 0.5)
+	slider.BackgroundColor3 = default and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(60, 60, 60)
+	slider.BorderSizePixel = 0
+	slider.Parent = toggleContainer
+	Instance.new("UICorner", slider).CornerRadius = UDim.new(1, 0)
+
+	local circle = Instance.new("Frame")
+	circle.Size = UDim2.fromOffset(14, 14)
+	circle.Position = default and UDim2.new(0, 20, 0.5, 0) or UDim2.new(0, 2, 0.5, 0)
+	circle.AnchorPoint = Vector2.new(0, 0.5)
+	circle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	circle.BorderSizePixel = 0
+	circle.Parent = slider
+	Instance.new("UICorner", circle).CornerRadius = UDim.new(1, 0)
+
+	local state = default or false
+
+	local function updateToggle(animated)
+		local targetColor = state and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(60, 60, 60)
+		local targetPos = state and UDim2.new(0, 20, 0.5, 0) or UDim2.new(0, 2, 0.5, 0)
+
+		if animated then
+			TweenService:Create(slider, TweenInfo.new(0.25, Enum.EasingStyle.Quint), {
+				BackgroundColor3 = targetColor
+			}):Play()
+
+			TweenService:Create(circle, TweenInfo.new(0.25, Enum.EasingStyle.Quint), {
+				Position = targetPos
+			}):Play()
+		else
+			slider.BackgroundColor3 = targetColor
+			circle.Position = targetPos
+		end
+
+		if callback then
+			pcall(callback, state)
+		end
+	end
+
+	toggleContainer.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			state = not state
+			updateToggle(true)
+		end
+	end)
+
+	updateToggle(false)
+end
 
     function QuantumUI:AddParagraph(tabPage, text)
         local label = Instance.new("TextLabel")
