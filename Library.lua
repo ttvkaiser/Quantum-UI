@@ -417,20 +417,110 @@ function QuantumUI:AddDropdown(tabPage, text, options, default, callback)
 	end
 end
 
-    function QuantumUI:AddParagraph(tabPage, text)
-        local label = Instance.new("TextLabel")
-        label.Size = UDim2.new(1, -10, 0, 48)
-        label.Position = UDim2.new(0, 5, 0, 0)
-        label.BackgroundTransparency = 1
-        label.Text = text
-        label.TextWrapped = true
-        label.TextColor3 = Color3.fromRGB(220, 220, 220)
-        label.Font = Enum.Font.Gotham
-        label.TextSize = 13
-        label.TextXAlignment = Enum.TextXAlignment.Left
-        label.TextYAlignment = Enum.TextYAlignment.Top
-        label.Parent = tabPage
+function QuantumUI:AddFolder(tabPage, folderName)
+    local TweenService = game:GetService("TweenService")
+
+    -- Folder container
+    local folderContainer = Instance.new("Frame")
+    folderContainer.Size = UDim2.new(1, -10, 0, 36)
+    folderContainer.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    folderContainer.BorderSizePixel = 0
+    folderContainer.ClipsDescendants = true
+    folderContainer.Parent = tabPage
+    Instance.new("UICorner", folderContainer)
+
+    -- Title label
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Size = UDim2.new(1, -30, 1, 0)
+    titleLabel.Position = UDim2.new(0, 10, 0, 0)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.Text = folderName
+    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleLabel.Font = Enum.Font.Gotham
+    titleLabel.TextSize = 14
+    titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    titleLabel.Parent = folderContainer
+
+    -- Arrow icon
+    local arrow = Instance.new("TextLabel")
+    arrow.Size = UDim2.new(0, 20, 1, 0)
+    arrow.Position = UDim2.new(1, -25, 0, 0)
+    arrow.BackgroundTransparency = 1
+    arrow.Text = "▶"
+    arrow.TextColor3 = Color3.fromRGB(255, 255, 255)
+    arrow.Font = Enum.Font.GothamBold
+    arrow.TextSize = 14
+    arrow.Parent = folderContainer
+
+    -- Clickable button to toggle
+    local toggleButton = Instance.new("TextButton")
+    toggleButton.Size = UDim2.new(1, 0, 1, 0)
+    toggleButton.BackgroundTransparency = 1
+    toggleButton.Text = ""
+    toggleButton.Parent = folderContainer
+
+    -- Content holder (for nested UI elements)
+    local contentHolder = Instance.new("Frame")
+    contentHolder.Position = UDim2.new(0, 0, 1, 0)
+    contentHolder.Size = UDim2.new(1, 0, 0, 0)
+    contentHolder.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    contentHolder.BorderSizePixel = 0
+    contentHolder.ClipsDescendants = true
+    contentHolder.Parent = folderContainer
+    Instance.new("UICorner", contentHolder)
+
+    local layout = Instance.new("UIListLayout", contentHolder)
+    layout.SortOrder = Enum.SortOrder.LayoutOrder
+    layout.Padding = UDim.new(0, 4)
+
+    local expanded = false
+
+    local function toggleFolder()
+        expanded = not expanded
+        local newHeight = 0
+        if expanded then
+            -- Calculate total height of contents + padding
+            newHeight = layout.AbsoluteContentSize.Y + 8
+            arrow.Text = "▼"
+        else
+            arrow.Text = "▶"
+        end
+
+        TweenService:Create(contentHolder, TweenInfo.new(0.25, Enum.EasingStyle.Quint), {
+            Size = UDim2.new(1, 0, 0, newHeight)
+        }):Play()
     end
+
+    toggleButton.MouseButton1Click:Connect(toggleFolder)
+
+    -- Return the contentHolder so you can add elements inside it
+    return contentHolder, folderContainer
+end
+
+function QuantumUI:AddParagraph(tabPage, text)
+    -- Outer container frame
+    local container = Instance.new("Frame")
+    container.Size = UDim2.new(1, -10, 0, 60) -- Slightly bigger height for padding
+    container.Position = UDim2.new(0, 5, 0, 0)
+    container.BackgroundColor3 = Color3.fromRGB(50, 50, 50) -- Darker background box
+    container.BorderSizePixel = 0
+    container.Parent = tabPage
+    Instance.new("UICorner", container) -- Rounded corners
+
+    -- Paragraph label inside the container
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, -16, 1, -16) -- Padding inside container
+    label.Position = UDim2.new(0, 8, 0, 8)
+    label.BackgroundTransparency = 1
+    label.Text = text
+    label.TextWrapped = true
+    label.TextColor3 = Color3.fromRGB(220, 220, 220)
+    label.Font = Enum.Font.Gotham
+    label.TextSize = 13
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.TextYAlignment = Enum.TextYAlignment.Top
+    label.Parent = container
+	end
 
     function QuantumUI:AddSection(tabPage, text)
         local section = Instance.new("TextLabel")
