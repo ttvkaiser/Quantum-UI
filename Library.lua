@@ -246,6 +246,88 @@ function QuantumUI:AddToggle(tabPage, text, default, callback)
     updateToggle(false)
 end
 
+    function QuantumUI:AddDropdown(tabPage, text, options, default, callback)
+	local TweenService = game:GetService("TweenService")
+
+	local dropdownContainer = Instance.new("Frame")
+	dropdownContainer.Size = UDim2.new(1, -10, 0, 36)
+	dropdownContainer.Position = UDim2.new(0, 5, 0, 0)
+	dropdownContainer.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+	dropdownContainer.BorderSizePixel = 0
+	dropdownContainer.ClipsDescendants = true
+	dropdownContainer.Parent = tabPage
+	Instance.new("UICorner", dropdownContainer)
+
+	local label = Instance.new("TextLabel")
+	label.Size = UDim2.new(1, -60, 1, 0)
+	label.Position = UDim2.new(0, 10, 0, 0)
+	label.BackgroundTransparency = 1
+	label.Text = text .. ": " .. (default or "")
+	label.TextColor3 = Color3.fromRGB(255, 255, 255)
+	label.Font = Enum.Font.Gotham
+	label.TextSize = 14
+	label.TextXAlignment = Enum.TextXAlignment.Left
+	label.Parent = dropdownContainer
+
+	local button = Instance.new("TextButton")
+	button.BackgroundTransparency = 1
+	button.Size = UDim2.new(1, 0, 1, 0)
+	button.Text = ""
+	button.Parent = dropdownContainer
+
+	local dropdownFrame = Instance.new("Frame")
+	dropdownFrame.Size = UDim2.new(1, 0, 0, 0)
+	dropdownFrame.Position = UDim2.new(0, 0, 1, 0)
+	dropdownFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+	dropdownFrame.BorderSizePixel = 0
+	dropdownFrame.ClipsDescendants = true
+	dropdownFrame.Parent = dropdownContainer
+	Instance.new("UICorner", dropdownFrame)
+
+	local layout = Instance.new("UIListLayout")
+	layout.Parent = dropdownFrame
+	layout.SortOrder = Enum.SortOrder.LayoutOrder
+	layout.Padding = UDim.new(0, 4)
+
+	local expanded = false
+	local selected = default
+
+	local function toggleDropdown()
+		expanded = not expanded
+		local itemCount = expanded and #options or 0
+		local targetHeight = itemCount * 30
+
+		TweenService:Create(dropdownFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint), {
+			Size = UDim2.new(1, 0, 0, targetHeight)
+		}):Play()
+	end
+
+	button.MouseButton1Click:Connect(toggleDropdown)
+
+	for _, option in ipairs(options) do
+		local optionButton = Instance.new("TextButton")
+		optionButton.Size = UDim2.new(1, -10, 0, 30)
+		optionButton.Position = UDim2.new(0, 5, 0, 0)
+		optionButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+		optionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+		optionButton.Text = option
+		optionButton.Font = Enum.Font.Gotham
+		optionButton.TextSize = 14
+		optionButton.BorderSizePixel = 0
+		optionButton.Parent = dropdownFrame
+		Instance.new("UICorner", optionButton)
+
+		optionButton.MouseButton1Click:Connect(function()
+			selected = option
+			label.Text = text .. ": " .. selected
+			toggleDropdown()
+			if callback then
+				pcall(callback, selected)
+			end
+		end)
+	end
+    end
+
     function QuantumUI:AddParagraph(tabPage, text)
         local label = Instance.new("TextLabel")
         label.Size = UDim2.new(1, -10, 0, 48)
