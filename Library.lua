@@ -164,6 +164,61 @@ function QuantumUI:CreateWindow(config)
         end)
     end
 
+function QuantumUI:AddInput(tabPage, labelText, placeholder, callback)
+	local inputContainer = Instance.new("Frame")
+	inputContainer.Size = UDim2.new(1, -10, 0, 48)
+	inputContainer.Position = UDim2.new(0, 5, 0, 0)
+	inputContainer.BackgroundTransparency = 1
+	inputContainer.Parent = tabPage
+
+	-- Label (top text)
+	local label = Instance.new("TextLabel")
+	label.Size = UDim2.new(1, 0, 0, 14)
+	label.Position = UDim2.new(0, 0, 0, 0)
+	label.BackgroundTransparency = 1
+	label.Text = labelText
+	label.TextColor3 = Color3.fromRGB(255, 255, 255)
+	label.Font = Enum.Font.Gotham
+	label.TextSize = 12
+	label.TextXAlignment = Enum.TextXAlignment.Left
+	label.Parent = inputContainer
+
+	-- TextBox background (invisible for borderless feel)
+	local textBox = Instance.new("TextBox")
+	textBox.Size = UDim2.new(1, 0, 0, 24)
+	textBox.Position = UDim2.new(0, 0, 0, 18)
+	textBox.BackgroundTransparency = 1
+	textBox.Text = ""
+	textBox.PlaceholderText = placeholder
+	textBox.PlaceholderColor3 = Color3.fromRGB(180, 180, 180)
+	textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+	textBox.Font = Enum.Font.Gotham
+	textBox.TextSize = 14
+	textBox.TextXAlignment = Enum.TextXAlignment.Left
+	textBox.ClearTextOnFocus = false
+	textBox.Parent = inputContainer
+
+	-- Underline
+	local underline = Instance.new("Frame")
+	underline.Size = UDim2.new(1, 0, 0, 1)
+	underline.Position = UDim2.new(0, 0, 1, -2)
+	underline.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+	underline.BorderSizePixel = 0
+	underline.Parent = textBox
+
+	-- On focus: highlight line
+	textBox.Focused:Connect(function()
+		underline.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+	end)
+
+	textBox.FocusLost:Connect(function(enterPressed)
+		underline.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+		if enterPressed and callback then
+			pcall(callback, textBox.Text)
+		end
+	end)
+end
+
 function QuantumUI:AddToggle(tabPage, text, default, callback)
     local TweenService = game:GetService("TweenService")
     local UserInputService = game:GetService("UserInputService")
