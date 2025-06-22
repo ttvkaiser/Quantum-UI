@@ -302,111 +302,119 @@ function QuantumUI:AddToggle(tabPage, text, default, callback)
 end
 
 function QuantumUI:AddDropdown(tabPage, text, options, default, callback)
-    local TweenService = game:GetService("TweenService")
+	local TweenService = game:GetService("TweenService")
 
-    -- Container
-    local dropdownContainer = Instance.new("Frame")
-    dropdownContainer.Size = UDim2.new(1, -10, 0, 36)
-    dropdownContainer.Position = UDim2.new(0, 5, 0, 0)
-    dropdownContainer.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
-    dropdownContainer.BorderSizePixel = 0
-    dropdownContainer.ClipsDescendants = true
-    dropdownContainer.Parent = tabPage
+	-- Container
+	local dropdownContainer = Instance.new("Frame")
+	dropdownContainer.Size = UDim2.new(1, -10, 0, 36)
+	dropdownContainer.Position = UDim2.new(0, 5, 0, 0)
+	dropdownContainer.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+	dropdownContainer.BorderSizePixel = 0
+	dropdownContainer.ClipsDescendants = false -- Important to allow dropdown to show outside
+	dropdownContainer.Parent = tabPage
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 6)
+	corner.Parent = dropdownContainer
 
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 6)
-    corner.Parent = dropdownContainer
+	-- Label
+	local label = Instance.new("TextLabel")
+	label.Size = UDim2.new(1, -40, 1, 0)
+	label.Position = UDim2.new(0, 10, 0, 0)
+	label.BackgroundTransparency = 1
+	label.Text = text .. ": " .. (default or "Select")
+	label.TextColor3 = Color3.fromRGB(255, 255, 255)
+	label.Font = Enum.Font.Gotham
+	label.TextSize = 14
+	label.TextXAlignment = Enum.TextXAlignment.Left
+	label.Parent = dropdownContainer
 
-    -- Label
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, -40, 1, 0)
-    label.Position = UDim2.new(0, 10, 0, 0)
-    label.BackgroundTransparency = 1
-    label.Text = text .. ": " .. (default or "Select")
-    label.TextColor3 = Color3.fromRGB(255, 255, 255)
-    label.Font = Enum.Font.Gotham
-    label.TextSize = 14
-    label.TextXAlignment = Enum.TextXAlignment.Left
-    label.Parent = dropdownContainer
+	-- Arrow
+	local arrow = Instance.new("TextLabel")
+	arrow.Size = UDim2.new(0, 20, 1, 0)
+	arrow.Position = UDim2.new(1, -25, 0, 0)
+	arrow.BackgroundTransparency = 1
+	arrow.Text = "▼"
+	arrow.TextColor3 = Color3.fromRGB(255, 255, 255)
+	arrow.Font = Enum.Font.GothamBold
+	arrow.TextSize = 14
+	arrow.Parent = dropdownContainer
 
-    -- Arrow
-    local arrow = Instance.new("TextLabel")
-    arrow.Size = UDim2.new(0, 20, 1, 0)
-    arrow.Position = UDim2.new(1, -25, 0, 0)
-    arrow.BackgroundTransparency = 1
-    arrow.Text = "▼"
-    arrow.TextColor3 = Color3.fromRGB(255, 255, 255)
-    arrow.Font = Enum.Font.GothamBold
-    arrow.TextSize = 14
-    arrow.Parent = dropdownContainer
+	-- Clickable area
+	local toggleButton = Instance.new("TextButton")
+	toggleButton.Size = UDim2.new(1, 0, 1, 0)
+	toggleButton.BackgroundTransparency = 1
+	toggleButton.Text = ""
+	toggleButton.Parent = dropdownContainer
 
-    -- Clickable area
-    local toggleButton = Instance.new("TextButton")
-    toggleButton.Size = UDim2.new(1, 0, 1, 0)
-    toggleButton.BackgroundTransparency = 1
-    toggleButton.Text = ""
-    toggleButton.Parent = dropdownContainer
+	-- Dropdown options container (separate frame, sibling of dropdownContainer)
+	local optionHolder = Instance.new("Frame")
+	optionHolder.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+	optionHolder.BorderSizePixel = 0
+	optionHolder.ClipsDescendants = true
+	optionHolder.Size = UDim2.new(0, dropdownContainer.AbsoluteSize.X, 0, 0) -- start closed
+	optionHolder.Position = UDim2.new(0, dropdownContainer.AbsolutePosition.X, 0, dropdownContainer.AbsolutePosition.Y + dropdownContainer.AbsoluteSize.Y)
+	optionHolder.Parent = tabPage
+	local optionCorner = Instance.new("UICorner")
+	optionCorner.CornerRadius = UDim.new(0, 6)
+	optionCorner.Parent = optionHolder
 
-    -- Dropdown area
-    local optionHolder = Instance.new("Frame")
-    optionHolder.Position = UDim2.new(0, 0, 1, 0)
-    optionHolder.Size = UDim2.new(1, 0, 0, 0)
-    optionHolder.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-    optionHolder.BorderSizePixel = 0
-    optionHolder.ClipsDescendants = true
-    optionHolder.Parent = dropdownContainer
+	local layout = Instance.new("UIListLayout")
+	layout.SortOrder = Enum.SortOrder.LayoutOrder
+	layout.Padding = UDim.new(0, 4)
+	layout.Parent = optionHolder
 
-    local optionCorner = Instance.new("UICorner")
-    optionCorner.CornerRadius = UDim.new(0, 6)
-    optionCorner.Parent = optionHolder
+	local expanded = false
+	local selected = default or "Select"
 
-    local layout = Instance.new("UIListLayout")
-    layout.SortOrder = Enum.SortOrder.LayoutOrder
-    layout.Padding = UDim.new(0, 4)
-    layout.Parent = optionHolder
+	-- Update optionHolder position and width on container move/resize
+	local function updateOptionHolderPosition()
+		optionHolder.Position = UDim2.new(0, dropdownContainer.AbsolutePosition.X, 0, dropdownContainer.AbsolutePosition.Y + dropdownContainer.AbsoluteSize.Y)
+		optionHolder.Size = UDim2.new(0, dropdownContainer.AbsoluteSize.X, 0, optionHolder.Size.Y.Offset)
+	end
 
-    -- State
-    local selected = default or "Select"
-    local expanded = false
+	updateOptionHolderPosition()
+	dropdownContainer:GetPropertyChangedSignal("AbsolutePosition"):Connect(updateOptionHolderPosition)
+	dropdownContainer:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateOptionHolderPosition)
 
-    local function toggleDropdown()
-        expanded = not expanded
-        local height = expanded and (#options * 34 + 4) or 0 -- 30 height + 4 padding approx
+	local function toggleDropdown()
+		expanded = not expanded
+		local height = expanded and (#options * 34 + 4) or 0
 
-        TweenService:Create(optionHolder, TweenInfo.new(0.25, Enum.EasingStyle.Quint), {
-            Size = UDim2.new(1, 0, 0, height)
-        }):Play()
+		TweenService:Create(optionHolder, TweenInfo.new(0.25, Enum.EasingStyle.Quint), {
+			Size = UDim2.new(0, dropdownContainer.AbsoluteSize.X, 0, height)
+		}):Play()
 
-        arrow.Text = expanded and "▲" or "▼"
-    end
+		arrow.Text = expanded and "▲" or "▼"
+	end
 
-    toggleButton.MouseButton1Click:Connect(toggleDropdown)
+	toggleButton.MouseButton1Click:Connect(toggleDropdown)
 
-    for _, option in ipairs(options) do
-        local optionButton = Instance.new("TextButton")
-        optionButton.Size = UDim2.new(1, -10, 0, 30)
-        optionButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-        optionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-        optionButton.Text = option
-        optionButton.Font = Enum.Font.Gotham
-        optionButton.TextSize = 14
-        optionButton.BorderSizePixel = 0
-        optionButton.AutoButtonColor = true
-        optionButton.Parent = optionHolder
+	for _, option in ipairs(options) do
+		local optionButton = Instance.new("TextButton")
+		optionButton.Size = UDim2.new(1, -10, 0, 30)
+		optionButton.Position = UDim2.new(0, 5, 0, 0)
+		optionButton.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+		optionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+		optionButton.Text = option
+		optionButton.Font = Enum.Font.Gotham
+		optionButton.TextSize = 14
+		optionButton.BorderSizePixel = 0
+		optionButton.AutoButtonColor = true
+		optionButton.Parent = optionHolder
 
-        local cornerBtn = Instance.new("UICorner")
-        cornerBtn.CornerRadius = UDim.new(0, 4)
-        cornerBtn.Parent = optionButton
+		local corner = Instance.new("UICorner")
+		corner.CornerRadius = UDim.new(0, 4)
+		corner.Parent = optionButton
 
-        optionButton.MouseButton1Click:Connect(function()
-            selected = option
-            label.Text = text .. ": " .. selected
-            toggleDropdown()
-            if callback then
-                pcall(callback, selected)
-            end
-        end)
-    end
+		optionButton.MouseButton1Click:Connect(function()
+			selected = option
+			label.Text = text .. ": " .. selected
+			toggleDropdown()
+			if callback then
+				pcall(callback, selected)
+			end
+		end)
+	end
 end
 
     function QuantumUI:AddParagraph(tabPage, text)
