@@ -166,14 +166,15 @@ function QuantumUI:CreateWindow(config)
 
 function QuantumUI:AddToggle(tabPage, text, default, callback)
     local TweenService = game:GetService("TweenService")
+    local UserInputService = game:GetService("UserInputService")
 
     local toggleContainer = Instance.new("Frame")
     toggleContainer.Size = UDim2.new(1, -10, 0, 36)
     toggleContainer.Position = UDim2.new(0, 5, 0, 0)
     toggleContainer.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
     toggleContainer.BorderSizePixel = 0
-    toggleContainer.Active = true       -- Make frame detect input
-    toggleContainer.Selectable = true   -- Make frame selectable for input
+    toggleContainer.Active = true
+    toggleContainer.Selectable = true
     toggleContainer.Parent = tabPage
     Instance.new("UICorner", toggleContainer)
 
@@ -230,15 +231,20 @@ function QuantumUI:AddToggle(tabPage, text, default, callback)
         end
     end
 
-    toggleContainer.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            state = not state
-            updateToggle(true)
-        end
+    -- Use MouseButton1Click on a transparent button for better reliability
+    local clickDetector = Instance.new("TextButton")
+    clickDetector.BackgroundTransparency = 1
+    clickDetector.Size = UDim2.new(1, 0, 1, 0)
+    clickDetector.Text = ""
+    clickDetector.Parent = toggleContainer
+
+    clickDetector.MouseButton1Click:Connect(function()
+        state = not state
+        updateToggle(true)
     end)
 
     updateToggle(false)
-	end
+end
 
     function QuantumUI:AddParagraph(tabPage, text)
         local label = Instance.new("TextLabel")
