@@ -219,86 +219,108 @@ function QuantumUI:AddInput(tabPage, labelText, placeholder, callback)
 	end)
 end
 
-function QuantumUI:AddToggle(tabPage, text, default, callback)
-    local TweenService = game:GetService("TweenService")
-    local UserInputService = game:GetService("UserInputService")
+function tabPage:CreateToggle(name, config)
+	local TweenService = game:GetService("TweenService")
 
-    local toggleContainer = Instance.new("Frame")
-    toggleContainer.Size = UDim2.new(1, -10, 0, 36)
-    toggleContainer.Position = UDim2.new(0, 5, 0, 0)
-    toggleContainer.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
-    toggleContainer.BorderSizePixel = 0
-    toggleContainer.Active = true
-    toggleContainer.Selectable = true
-    toggleContainer.Parent = tabPage
-    Instance.new("UICorner", toggleContainer)
+	local Toggle = {}
+	local state = config.Default or false
+	local title = config.Title or name
 
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, -60, 1, 0)
-    label.Position = UDim2.new(0, 10, 0, 0)
-    label.BackgroundTransparency = 1
-    label.Text = text
-    label.TextColor3 = Color3.fromRGB(255, 255, 255)
-    label.Font = Enum.Font.Gotham
-    label.TextSize = 14
-    label.TextXAlignment = Enum.TextXAlignment.Left
-    label.Parent = toggleContainer
+	local toggleContainer = Instance.new("Frame")
+	toggleContainer.Size = UDim2.new(1, -10, 0, 36)
+	toggleContainer.Position = UDim2.new(0, 5, 0, 0)
+	toggleContainer.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+	toggleContainer.BorderSizePixel = 0
+	toggleContainer.Parent = self
+	Instance.new("UICorner", toggleContainer)
 
-    local slider = Instance.new("Frame")
-    slider.Size = UDim2.fromOffset(36, 18)
-    slider.Position = UDim2.new(1, -46, 0.5, 0)
-    slider.AnchorPoint = Vector2.new(0, 0.5)
-    slider.BackgroundColor3 = default and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(60, 60, 60)
-    slider.BorderSizePixel = 0
-    slider.Parent = toggleContainer
-    Instance.new("UICorner", slider).CornerRadius = UDim.new(1, 0)
+	local label = Instance.new("TextLabel")
+	label.Size = UDim2.new(1, -60, 1, 0)
+	label.Position = UDim2.new(0, 10, 0, 0)
+	label.BackgroundTransparency = 1
+	label.Text = title
+	label.TextColor3 = Color3.fromRGB(255, 255, 255)
+	label.Font = Enum.Font.Gotham
+	label.TextSize = 14
+	label.TextXAlignment = Enum.TextXAlignment.Left
+	label.Parent = toggleContainer
 
-    local circle = Instance.new("Frame")
-    circle.Size = UDim2.fromOffset(14, 14)
-    circle.Position = default and UDim2.new(0, 20, 0.5, 0) or UDim2.new(0, 2, 0.5, 0)
-    circle.AnchorPoint = Vector2.new(0, 0.5)
-    circle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    circle.BorderSizePixel = 0
-    circle.Parent = slider
-    Instance.new("UICorner", circle).CornerRadius = UDim.new(1, 0)
+	local slider = Instance.new("Frame")
+	slider.Size = UDim2.fromOffset(36, 18)
+	slider.Position = UDim2.new(1, -46, 0.5, 0)
+	slider.AnchorPoint = Vector2.new(0, 0.5)
+	slider.BackgroundColor3 = state and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(60, 60, 60)
+	slider.BorderSizePixel = 0
+	slider.Parent = toggleContainer
+	Instance.new("UICorner", slider).CornerRadius = UDim.new(1, 0)
 
-    local state = default or false
+	local circle = Instance.new("Frame")
+	circle.Size = UDim2.fromOffset(14, 14)
+	circle.Position = state and UDim2.new(0, 20, 0.5, 0) or UDim2.new(0, 2, 0.5, 0)
+	circle.AnchorPoint = Vector2.new(0, 0.5)
+	circle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	circle.BorderSizePixel = 0
+	circle.Parent = slider
+	Instance.new("UICorner", circle).CornerRadius = UDim.new(1, 0)
 
-    local function updateToggle(animated)
-        local targetColor = state and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(60, 60, 60)
-        local targetPos = state and UDim2.new(0, 20, 0.5, 0) or UDim2.new(0, 2, 0.5, 0)
+	-- Click hitbox
+	local clickArea = Instance.new("TextButton")
+	clickArea.BackgroundTransparency = 1
+	clickArea.Size = UDim2.new(1, 0, 1, 0)
+	clickArea.Text = ""
+	clickArea.Parent = toggleContainer
 
-        if animated then
-            TweenService:Create(slider, TweenInfo.new(0.25, Enum.EasingStyle.Quint), {
-                BackgroundColor3 = targetColor
-            }):Play()
+	-- Event system
+	local callbacks = {}
 
-            TweenService:Create(circle, TweenInfo.new(0.25, Enum.EasingStyle.Quint), {
-                Position = targetPos
-            }):Play()
-        else
-            slider.BackgroundColor3 = targetColor
-            circle.Position = targetPos
-        end
+	function Toggle:OnChanged(fn)
+		table.insert(callbacks, fn)
+	end
 
-        if callback then
-            pcall(callback, state)
-        end
-    end
+	function Toggle:SetValue(val)
+		state = val
+		updateToggle(false)
+	end
 
-    -- Use MouseButton1Click on a transparent button for better reliability
-    local clickDetector = Instance.new("TextButton")
-    clickDetector.BackgroundTransparency = 1
-    clickDetector.Size = UDim2.new(1, 0, 1, 0)
-    clickDetector.Text = ""
-    clickDetector.Parent = toggleContainer
+	function Toggle:GetValue()
+		return state
+	end
 
-    clickDetector.MouseButton1Click:Connect(function()
-        state = not state
-        updateToggle(true)
-    end)
+	local function updateToggle(animated)
+		local targetColor = state and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(60, 60, 60)
+		local targetPos = state and UDim2.new(0, 20, 0.5, 0) or UDim2.new(0, 2, 0.5, 0)
 
-    updateToggle(false)
+		if animated then
+			TweenService:Create(slider, TweenInfo.new(0.25, Enum.EasingStyle.Quint), {
+				BackgroundColor3 = targetColor
+			}):Play()
+
+			TweenService:Create(circle, TweenInfo.new(0.25, Enum.EasingStyle.Quint), {
+				Position = targetPos
+			}):Play()
+		else
+			slider.BackgroundColor3 = targetColor
+			circle.Position = targetPos
+		end
+
+		for _, fn in ipairs(callbacks) do
+			pcall(fn, state)
+		end
+	end
+
+	clickArea.MouseButton1Click:Connect(function()
+		state = not state
+		updateToggle(true)
+	end)
+
+	updateToggle(false)
+
+	-- Bind to global Options table if needed
+	if _G.Options then
+		_G.Options[name] = Toggle
+	end
+
+	return Toggle
 end
 
 function QuantumUI:AddDropdown(tabPage, text, options, default, callback)
